@@ -1,6 +1,6 @@
 from flask_restx import Api
 from flask import Blueprint
-from .main.config import Config
+from app.main.config import Config
 
 # from .main.controller.user_controller import api as user_ns
 # from .main.controller.auth_controller import api as auth_ns
@@ -14,5 +14,5 @@ api = Api(blueprint,
           description='a boilerplate for flask restplus (restx) web service'
           )
 
-api.add_namespace(goal_ns, path='/goal')
+api.add_namespace(goal_ns, path='/goals')
 # api.add_namespace(auth_ns)
