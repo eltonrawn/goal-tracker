@@ -1,0 +1,45 @@
+//PUT /projects
+{
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "name": {
+        "type": "text"
+      },
+      "description": {
+        "type": "text"
+      },
+      "total_time_spent": {
+        "type": "long"
+      },
+      "periodicity": {
+        "type": "keyword"
+      },
+      "start_time": {
+        "type":"date",
+        "format":"dd/MM/yyyy||yyyy/MM/dd||yyyy-MM-dd||yyyy-MM-dd HH:MM:ss||strict_date_optional_time||epoch_millis"
+      },
+      "end_time": {
+        "type":"date",
+        "format":"dd/MM/yyyy||yyyy/MM/dd||yyyy-MM-dd||yyyy-MM-dd HH:MM:ss||strict_date_optional_time||epoch_millis"
+      },
+      "created_at": {
+        "type":"date",
+        "format":"dd/MM/yyyy||yyyy/MM/dd||yyyy-MM-dd||yyyy-MM-dd HH:MM:ss||strict_date_optional_time||epoch_millis"
+      },
+      "created_by": {
+        "type":"keyword"
+      },
+      "updated_at": {
+        "type":"date",
+        "format":"dd/MM/yyyy||yyyy/MM/dd||yyyy-MM-dd||yyyy-MM-dd HH:MM:ss||strict_date_optional_time||epoch_millis"
+      },
+      "updated_by": {
+        "type":"keyword"
+      },
+      "status": {
+        "type": "keyword"
+      }
+    }
+  }
+}
