@@ -1,0 +1,29 @@
+//PUT /users
+{
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "username": {
+        "type": "text"
+      },
+      "password": {
+        "type": "text"
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "address": {
+        "type": "text"
+      },
+      "phone": {
+        "type": "text"
+      },
+      "email": {
+        "type": "text"
+      },
+      "designation": {
+        "type": "text"
+      }
+    }
+  }
+}
