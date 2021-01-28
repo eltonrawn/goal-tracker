@@ -7,6 +7,8 @@ from flask_jwt_extended import (
     get_jwt_identity
 )
 
+from app.main.core.project_services import get_projects_by_user_id
+
 api = Namespace("project", description="project related operations")
 
 _http_headers = {"Content-Type": "application/json"}
@@ -17,12 +19,18 @@ _es_type = "_doc"
 @api.route('/')
 class ProjectCRUD(Resource):
     @api.doc("crud operation for projects")
-    # def get(self):
-    #     """khali hola priya return kore"""
-    #     return {"message": app.config["ES_HOST"]}, 200
+    @jwt_required
+    def get(self):
+        """get projects for the user"""
+        try:
+            project = get_projects_by_user_id(get_jwt_identity().get("id"))
+        except Exception as e:
+            return {"message": "Internal Server Error", "reason": str(e)}, 500
+        return {"message": project}, 200
+
     @jwt_required
     def post(self):
-        """post project"""
+        """create project for the user"""
         rs = requests.session()
         data = request.get_json()
         data["created_by"] = get_jwt_identity().get("id")

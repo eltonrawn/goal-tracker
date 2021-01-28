@@ -17,3 +17,11 @@ def get_project_by_id(project_id):
         raise e
     print(response.json())
     return response.json()
+
+
+def get_projects_by_user_id(user_id):
+    rs = requests.session()
+    search_url = f"http://{app.config['ES_HOST']}/{project_es_index}/_doc/_search"
+    query_params = {"query": {"bool": {"must": [{"match": {"created_by": user_id}}]}}}
+    response = rs.post(url=search_url, json=query_params, headers=_http_headers)
+    return response.json()["hits"]["hits"]

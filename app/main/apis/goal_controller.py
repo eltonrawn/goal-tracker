@@ -8,6 +8,7 @@ from flask_jwt_extended import (
 )
 
 from app.main.core.project_services import get_project_by_id
+from app.main.core.goal_services import get_goals_by_user_id
 
 api = Namespace("goal", description="goal related operations")
 
@@ -19,9 +20,15 @@ _es_type = "_doc"
 @api.route('/')
 class GoalCRUD(Resource):
     @api.doc("crud operation for goals")
-    # def get(self):
-    #     """get goals"""
-    #     return {"message": app.config["ES_HOST"]}, 200
+    @jwt_required
+    def get(self):
+        """get goals"""
+        try:
+            project = get_goals_by_user_id(get_jwt_identity().get("id"))
+        except Exception as e:
+            return {"message": "Internal Server Error", "reason": str(e)}, 500
+        return {"message": project}, 200
+
     @jwt_required
     def post(self):
         """post goal"""
