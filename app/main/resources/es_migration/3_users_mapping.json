@@ -23,6 +23,9 @@
       },
       "designation": {
         "type": "text"
+      },
+      "user_role": {
+        "type": "text"
       }
     }
   }

@@ -28,12 +28,14 @@ class UserCRUD(Resource):
             user_data["password"] = md5(
                 user_data["password"].encode(encoding="utf-8")
             ).hexdigest()
+            if "user_role" not in user_data:
+                user_data["user_role"] = "user"
         except Exception as e:
             # app.logger.warning("Bad request")
             return e, 400
 
         search_url = f"http://{app.config['ES_HOST']}/{user_es_index}/_doc/_search"
-        query_params = {"query": {"bool": {"must": [{"match": {"username": data["username"]}}]}}}
+        query_params = {"query": {"bool": {"must": [{"match": {"username": user_data["username"]}}]}}}
         response = rs.post(url=search_url, json=query_params, headers=_http_headers).json()
 
         print(response)
