@@ -34,6 +34,7 @@ class ProjectCRUD(Resource):
         rs = requests.session()
         data = request.get_json()
         data["created_by"] = get_jwt_identity().get("id")
+        data["total_time_spent"] = 0
         print(data)
         post_url = "http://{}/{}/{}".format(app.config["ES_HOST"], project_es_index, _es_type)
         response = rs.post(url=post_url, json=data, headers=_http_headers).json()
