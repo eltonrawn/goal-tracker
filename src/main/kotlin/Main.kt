@@ -2,6 +2,7 @@ package org.bonk
 
 import java.sql.DriverManager
 import java.sql.Timestamp
+import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
 fun main() {
@@ -26,20 +27,34 @@ fun main() {
         }
         val totalHoursSpent = secondsToHours(totalSecondsSpent)
 
+        val secondsNeedToSpend = goal.timeGoalSecond - totalSecondsSpent
+        val hoursNeedToSpend = secondsNeedToSpend.toDouble() / 3600
+
         val completePercentage = (totalSecondsSpent.toDouble() / goal.timeGoalSecond.toDouble()) * 100.0
 
+        val daysLeft = getDaysBetween(LocalDate.now(), toLocalDateFromTimestamp(goal.dateEnd))
+        val hoursNeedToSpendPerDay = (secondsNeedToSpend.toDouble() / (if(daysLeft == 0L) 1.0 else daysLeft.toDouble())) / 3600.0
+
+        val daysPassed = goal.totalDays - daysLeft
+        val hoursSpentPerDay = (totalSecondsSpent.toDouble() / (if(daysPassed == 0L) 1.0 else daysPassed.toDouble())) / 3600.0
+
+//        val remainingHoursNeededPerDay = ()
+
         println("***********Goal: ${goal.description}************")
-        println("Goal is ${goal.timeGoalHour} hours")
-        println("Total $totalHoursSpent hours spent")
-        println("$completePercentage % complete")
+        println("Goal is to spend ${goal.timeGoalHour} hours in ${goal.totalDays} days (${goal.totalHourNeededPerDay} hours per day)")
+//        println("$completePercentage % complete with $totalHoursSpent hours spent in ... days")
+//        println("$daysLeft days left with $hoursNeedToSpend hours need to spend")
+        println("Spent $totalHoursSpent hours in $daysPassed days ($completePercentage% complete with $hoursSpentPerDay hours per day)")
+        println("Need to spend $hoursNeedToSpend hours in $daysLeft days ($hoursNeedToSpendPerDay hours per day)")
         printProgressBar(completePercentage)
     }
 }
 
 fun printProgressBar(percentage: Double)  {
     val progress = ((percentage) / 10).toInt()
+    print("progress:")
     for(i in 1 .. progress) {
-        print(">")
+        print(" >")
     }
     for(i in progress .. 10) {
         print(" -")
@@ -51,6 +66,14 @@ fun secondsToHours(seconds: Int): Double {
     return seconds.toDouble() / 3600.0
 }
 
+fun toLocalDateFromTimestamp(timestamp: Timestamp): LocalDate {
+    return timestamp.toLocalDateTime().toLocalDate()
+}
+
+fun getDaysBetween(startDate: LocalDate, endDate: LocalDate): Long {
+    return ChronoUnit.DAYS.between(startDate, endDate) + 1
+}
+
 data class Goal(
     val id: Int,
     val description: String,
@@ -58,13 +81,13 @@ data class Goal(
     val dateCreated: Timestamp,
     val dateEnd: Timestamp,
     var timeGoalHour: Double = 0.0,
-    var daysBetween: Long = 0,
-    var hourNeededPerDay: Double = 0.0
+    var totalDays: Long = 0,
+    var totalHourNeededPerDay: Double = 0.0
 ) {
     init {
         timeGoalHour = secondsToHours(timeGoalSecond)
-        daysBetween = ChronoUnit.DAYS.between(dateCreated.toLocalDateTime().toLocalDate(), dateEnd.toLocalDateTime().toLocalDate()) + 1
-        hourNeededPerDay = (timeGoalSecond.toDouble() / daysBetween.toDouble()) / 3600.0
+        totalDays = getDaysBetween(toLocalDateFromTimestamp(dateCreated), toLocalDateFromTimestamp(dateEnd))
+        totalHourNeededPerDay = (timeGoalSecond.toDouble() / totalDays.toDouble()) / 3600.0
     }
 }
 
