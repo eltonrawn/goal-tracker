@@ -13,7 +13,7 @@ object TimeUtil {
         return timestamp.toLocalDateTime().toLocalDate()
     }
 
-    fun getDaysBetween(startDate: LocalDate, endDate: LocalDate): Long {
+    fun getDaysBetweenInclusive(startDate: LocalDate, endDate: LocalDate): Long {
         return ChronoUnit.DAYS.between(startDate, endDate) + 1
     }
 }
