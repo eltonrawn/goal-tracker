@@ -1,6 +1,6 @@
 package org.bonk.service
 
-import org.bonk.model.Goal
+import org.bonk.org.bonk.model.Goal
 import java.sql.DriverManager
 
 interface GoalService {

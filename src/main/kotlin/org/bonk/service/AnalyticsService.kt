@@ -1,7 +1,7 @@
 package org.bonk.service
 
 import org.bonk.model.Analytics
-import org.bonk.model.Goal
+import org.bonk.org.bonk.model.Goal
 import org.bonk.model.LogEntry
 import org.bonk.util.PrintUtil
 import org.bonk.util.TimeUtil

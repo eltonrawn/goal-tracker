@@ -1,4 +1,4 @@
-package org.bonk.model
+package org.bonk.org.bonk.model
 
 import java.sql.Timestamp
 
