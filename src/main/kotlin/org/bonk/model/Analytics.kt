@@ -1,5 +1,7 @@
 package org.bonk.model
 
+import java.time.LocalDate
+
 data class Analytics(
     val timeGoalHour: Double,
     val totalDays: Long,
@@ -12,5 +14,6 @@ data class Analytics(
     val hoursSpentPerDay: Double,
     val secondsNeedToSpend: Int,
     val hoursNeedToSpend: Double,
-    val hoursNeedToSpendPerDay: Double
+    val hoursNeedToSpendPerDay: Double,
+    val hoursSpendEachDay: List<Pair<LocalDate, Int>>
 )
