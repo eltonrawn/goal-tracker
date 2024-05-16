@@ -5,6 +5,7 @@ import java.sql.DriverManager
 
 interface LogEntryService {
     fun getLogs(): List<LogEntry>
+    fun insertLog(logEntry: LogEntry)
 }
 
 class LogEntryServiceImpl: LogEntryService {
@@ -30,5 +31,24 @@ class LogEntryServiceImpl: LogEntryService {
             logEntries.add(logEntry)
         }
         return logEntries
+    }
+
+    override fun insertLog(logEntry: LogEntry) {
+        val jdbcUrl = "jdbc:postgresql://localhost:5432/goalsdb"
+        val connection = DriverManager
+            .getConnection(jdbcUrl, "postgres", "postgres")
+
+        val insertQuery = "insert into log_entry(goal_id, date_created, time_spent_second) values(?,?,?)"
+
+        val preparedStatement = connection.prepareStatement(insertQuery)
+
+        preparedStatement.setInt(1, logEntry.goalId)
+        preparedStatement.setTimestamp(2, logEntry.dateCreated)
+        preparedStatement.setInt(3, logEntry.timeSpentSecond)
+
+        // the query is executed and results are fetched
+        val result = preparedStatement.executeUpdate()
+        println("rows affected $result")
+
     }
 }
