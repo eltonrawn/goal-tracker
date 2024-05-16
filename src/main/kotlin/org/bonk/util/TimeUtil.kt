@@ -14,6 +14,10 @@ object TimeUtil {
     }
 
     fun getDaysBetweenInclusive(startDate: LocalDate, endDate: LocalDate): Long {
-        return ChronoUnit.DAYS.between(startDate, endDate) + 1
+        return getDaysBetween(startDate, endDate) + 1
+    }
+
+    fun getDaysBetween(startDate: LocalDate, endDate: LocalDate): Long {
+        return ChronoUnit.DAYS.between(startDate, endDate)
     }
 }

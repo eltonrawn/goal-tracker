@@ -60,16 +60,17 @@ class AnalyticsServiceImpl(
         dateCreated: Timestamp,
         dateEnd: Timestamp
     ): Analytics {
+        val totalDays = TimeUtil.getDaysBetweenInclusive(TimeUtil.toLocalDateFromTimestamp(dateCreated), TimeUtil.toLocalDateFromTimestamp(dateEnd))
+        val daysLeft = TimeUtil.getDaysBetween(LocalDate.now(), TimeUtil.toLocalDateFromTimestamp(dateEnd))
+        val daysPassed = totalDays - daysLeft
+
         // analytics for total goal
         val timeGoalHour = TimeUtil.secondsToHours(timeGoalSecond)
-        val totalDays = TimeUtil.getDaysBetweenInclusive(TimeUtil.toLocalDateFromTimestamp(dateCreated), TimeUtil.toLocalDateFromTimestamp(dateEnd))
         val totalHourNeededPerDay = (timeGoalSecond.toDouble() / totalDays.toDouble()) / 3600.0
 
         // analytics for time spent
-        val totalHoursSpent = TimeUtil.secondsToHours(totalSecondsSpent)
         val completePercentage = (totalSecondsSpent.toDouble() / timeGoalSecond.toDouble()) * 100.0
-        val daysLeft = TimeUtil.getDaysBetweenInclusive(LocalDate.now(), TimeUtil.toLocalDateFromTimestamp(dateEnd))
-        val daysPassed = totalDays - daysLeft
+        val totalHoursSpent = TimeUtil.secondsToHours(totalSecondsSpent)
         val hoursSpentPerDay = (totalSecondsSpent.toDouble() / (if(daysPassed == 0L) 1.0 else daysPassed.toDouble())) / 3600.0
 
         // analytics for time left
