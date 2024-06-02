@@ -45,7 +45,7 @@ class AnalyticsServiceImpl(
 
         println("*********** Total ************")
 
-        val totalHoursSpentEachDay = getSecondsSpentEachDay(logs + populateLogsWithEmptyHour(goals.minOf {it.dateCreated}))
+        val totalHoursSpentEachDay = getSecondsSpentEachDay(logs + populateLogsWithEmptyHour(goals.minOfOrNull {it.dateCreated} ?: Timestamp(System.currentTimeMillis())))
         totalHoursSpentEachDay.forEach {
             println("${it.first} : ${TimeUtil.secondsToHours(it.second)} hours")
         }
