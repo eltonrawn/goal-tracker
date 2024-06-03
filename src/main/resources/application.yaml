@@ -1,0 +1,6 @@
+ktor:
+    application:
+        modules:
+            - org.bonk.MainKt.module
+    deployment:
+        port: 8080

@@ -1,7 +1,7 @@
 package org.bonk.service
 
 import org.bonk.model.Analytics
-import org.bonk.org.bonk.model.Goal
+import org.bonk.org.bonk.model.Goalz
 import org.bonk.model.LogEntry
 import org.bonk.util.PrintUtil
 import org.bonk.util.TimeUtil
@@ -27,7 +27,7 @@ class AnalyticsServiceImpl(
         val goals = goalService.getGoals()
         var totalHourNeededPerDay = 0.0
 
-        goals.map {goal: Goal ->
+        goals.map {goal: Goalz ->
             val analytics = calculateAnalyticsForGoal(goal, logs)
 
             totalHourNeededPerDay += analytics.totalHourNeededPerDay
@@ -56,7 +56,7 @@ class AnalyticsServiceImpl(
         println("Total hours spent ${TimeUtil.secondsToHours(totalHoursSpentEachDay.sumOf {it.second})} hours")
     }
 
-    private fun calculateAnalyticsForGoal(goal: Goal, logs: List<LogEntry>): Analytics {
+    private fun calculateAnalyticsForGoal(goal: Goalz, logs: List<LogEntry>): Analytics {
         val logsForGoal = logs.filter {
             it.goalId == goal.id
         }
